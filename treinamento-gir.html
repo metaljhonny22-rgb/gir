@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Plano de Treinamento do GIR — Documento Oficial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    /* =======================
+       DESIGN SYSTEM (LP/GiR)
+       ======================= */
+    :root{
+      --bg: #0E1014;             /* fundo escuro elegante */
+      --panel: #141824;          /* cartões */
+      --panel-2:#10131C;         /* hero */
+      --ink: #E9EDF5;            /* texto */
+      --muted:#A8B1C6;           /* texto suave */
+      --stroke:#22283A;          /* bordas */
+      --gold:#C8A763;            /* dourado PP-MG */
+      --gold-2:#876C33;
+      --max: 1040px;             /* largura máxima */
+      --radius: 16px;
+    }
+
+    /* Reset mínimo e tipografia */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body{
+      font: 16px/1.65 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+      color: var(--ink);
+      background: radial-gradient(1200px 400px at 20% -20%, rgba(200,167,99,.09), transparent 60%), var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Barra superior (logo + ações) */
+    .topbar{
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(8px) saturate(120%);
+      background: linear-gradient(180deg, rgba(16,19,28,.92), rgba(16,19,28,.75));
+      border-bottom: 1px solid var(--stroke);
+    }
+    .topbar__inner{
+      max-width: var(--max);
+      padding: 10px 18px;
+      margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; min-width:0;
+    }
+    .brand-logo{
+      width: 44px; height: 44px; object-fit: contain;
+      border-radius: 50%; background:#0c0f15; border:1px solid var(--stroke);
+      box-shadow: 0 1px 0 rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.02);
+    }
+    .brand-title{
+      font-weight: 900; letter-spacing:.3px; white-space:nowrap;
+    }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; }
+    .btn{
+      appearance:none; cursor:pointer; border-radius:12px;
+      border:1px solid var(--stroke); color:var(--ink);
+      background: linear-gradient(180deg, #23293B, #1A1F2C);
+      padding: 10px 14px; font-weight: 700;
+      box-shadow: 0 1px 0 rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.03);
+      transition: transform .15s ease, box-shadow .15s ease, background .2s;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .btn--gold{
+      color:#13161f; border-color:#6A5631;
+      background: linear-gradient(180deg, #E4C98C, #C6A563 65%, #B18A4A);
+    }
+
+    /* Hero + Sumário */
+    .hero{
+      background: linear-gradient(180deg, var(--panel-2), transparent);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 22px 18px 0; }
+    .hero h1{ margin: 8px 0 4px; font-size: 30px; line-height:1.2; letter-spacing:.2px; }
+    .sub{ color: var(--muted); font-size: 14px; }
+    .toc{
+      display:flex; gap:8px; flex-wrap:wrap; margin:16px 0 22px;
+    }
+    .toc a{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--stroke); border-radius:999px; padding:8px 12px;
+      background: linear-gradient(180deg, #1A1F2C, #141A25);
+      font-weight:700; color:var(--ink);
+    }
+    .toc a .badge{
+      display:inline-grid; place-items:center; min-width:26px; height:26px;
+      border-radius:50%; font-size:12px; font-weight:900; color:#0f1218;
+      background: linear-gradient(180deg, #E4C98C, #C6A563);
+      border:1px solid #6b5a37;
+    }
+
+    /* Cards de seção */
+    .section{
+      margin: 28px 0;
+      background: linear-gradient(180deg, #151A27, #131723);
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: 0 10px 36px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.02);
+    }
+    .section__head{
+      display:flex; align-items:center; gap:12px;
+      padding:16px 18px; border-bottom:1px solid var(--stroke);
+      background: linear-gradient(180deg, #121725, #101420);
+    }
+    .section__head .num{
+      display:inline-grid; place-items:center;
+      width:34px; height:34px; border-radius:10px;
+      color:#0e1117; font-weight:900;
+      background: linear-gradient(180deg, #E4C98C, #C6A563);
+      border:1px solid #6b5a37;
+    }
+    .section__title{ font-size:20px; font-weight:900; letter-spacing:.2px; }
+    .section__body{ padding: 18px; }
+    .grid{ display:grid; gap:16px; grid-template-columns: repeat(1, minmax(0,1fr)); }
+    @media (min-width: 900px){ .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+    .card{
+      border:1px solid var(--stroke); border-radius:14px; padding:14px 16px;
+      background: linear-gradient(180deg, #141A26, #121623);
+    }
+    h3{ margin: 2px 0 8px; font-size:16px; letter-spacing:.2px; }
+    p{ margin: 8px 0 12px; }
+    ul{ margin: 8px 0 12px 18px; }
+    li{ margin: 6px 0; }
+    .muted{ color: var(--muted); }
+
+    .divider{ height:1px; background: linear-gradient(90deg, transparent, var(--stroke), transparent); margin: 16px 0; }
+
+    footer.doc{
+      margin: 22px 0 80px; padding: 14px 18px; color: var(--muted);
+      border-top:1px solid var(--stroke);
+      font-size: 13px;
+    }
+
+    /* ===========
+       IMPRESSÃO
+       =========== */
+    @page{ size: A4; margin: 16mm; }
+    @media print{
+      .topbar, .toc, .divider { display:none !important; }
+      body{ background:#fff; color:#000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .hero, .section, .card{ background:#fff; border-color:#cfd6e4; box-shadow:none; }
+      .section__head{ background:#fff; border-color:#cfd6e4; }
+      .section__head .num{ background:#eee; color:#000; border-color:#ddd; }
+      .brand-title{ color:#000; }
+      .brand-logo{ border-color:#ddd; background:#fff; }
+      footer.doc{ color:#333; border-color:#ddd; }
+      a[href]:after{ content:""; }
+      /* evitar quebras ruins */
+      h2, h3 { break-after: avoid; }
+      .card, .section, ul, p { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Barra de topo: LOGO + Botão PDF -->
+  <div class="topbar" role="banner">
+    <div class="topbar__inner">
+      <div class="brand">
+        <!-- Substitua o src pela sua logo -->
+        <img class="brand-logo" src="gir.png" alt="Logo do GiR" />
+        <div class="brand-title">Plano de Treinamento do <span style="color:var(--gold)">GIR</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn--gold" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero + Sumário -->
+  <header class="hero">
+    <div class="wrap">
+      <h1>Plano de Treinamento do GIR</h1>
+      <div class="sub">
+        Objetivo: padronizar os treinos diários (por equipe) e os treinos mensais (grupamento inteiro) para elevar proficiência técnica, segurança e integração tática.
+      </div>
+
+      <nav class="toc" aria-label="Sumário">
+        <a href="#s1"><span class="badge">1</span> Diretrizes de Segurança</a>
+        <a href="#s2"><span class="badge">2</span> Estrutura do Programa</a>
+        <a href="#s3"><span class="badge">3</span> Módulos Diários</a>
+        <a href="#s4"><span class="badge">4</span> Módulos Mensais</a>
+        <a href="#s5"><span class="badge">5</span> Sessão Diária (Modelo)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" role="main">
+
+    <!-- 1) Diretrizes -->
+    <section id="s1" class="section">
+      <div class="section__head">
+        <div class="num">1</div>
+        <div class="section__title">Diretrizes de Segurança & Conformidade</div>
+      </div>
+      <div class="section__body">
+        <div class="grid">
+          <div class="card">
+            <h3>EPI e área segura</h3>
+            <ul>
+              <li><strong>EPI obrigatório:</strong> utilizar os EPI necessários para cada módulo de treinamento.</li>
+              <li><strong>Área segura e delimitada</strong> Todo treinamento deve ser realizado em local apropriado</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Armas e menos-letais</h3>
+            <ul>
+              <li><strong>4 regras de segurança</strong> sempre observadas.</li>
+              <li>Treino a seco preferencial; munição real <strong>apenas</strong> quando formalmente previsto e em local apropriado.</li>
+              <li><strong>IMPO:</strong> identificação e custódia padronizadas; distâncias/ângulos seguros.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Suporte médico</h3>
+            <ul>
+              <li><strong>APH:</strong> segurança de cena, controle de hemorragias, priorização ABC, kit funcional.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Conformidade e debrief</h3>
+            <ul>
+              <li>Respeito às normas internas, legislação.</li>
+              <li><strong>Debrief</strong> com lições aprendidas e ações corretivas.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2) Estrutura do Programa -->
+    <section id="s2" class="section">
+      <div class="section__head">
+        <div class="num">2</div>
+        <div class="section__title">Estrutura do Programa</div>
+      </div>
+      <div class="section__body">
+        <div class="card">
+          <ul>
+            <li><strong>Quatro equipes</strong> no GIR, cada qual com treino <strong>diário conduzido pelo líder</strong> (foco em habilidades individuais).</li>
+            <li><strong>Treino mensal do grupamento</strong> (todos juntos), focado em integração, formações e intervenções.</li>
+            <li><strong>Formato de sessão diária (45–75 min):</strong>
+              <ol>
+                <li>Checagem de segurança & EPI (5–10')</li>
+                <li>Aquecimento técnico/físico leve (5–10')</li>
+                <li><strong>Bloco técnico principal</strong> (25–45')</li>
+                <li><strong>Debrief</strong> com registro (5–10')</li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3) Módulos Diários -->
+    <section id="s3" class="section">
+      <div class="section__head">
+        <div class="num">3</div>
+        <div class="section__title">Módulos de Treino <strong>Diário</strong> (por equipe)</div>
+      </div>
+      <div class="section__body">
+        <div class="grid">
+          <div class="card">
+            <h3>A) Manuseio de Pistola .40</h3>
+            <p class="muted"><strong>Objetivos:</strong> segurança, empunhadura, apresentação, manipulações seguras, pronta resposta.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> recarga tática/emergencial; saneamento de panes; saque; reset de gatilho; postura em pronto.</li>
+              <li><strong>Indicadores:</strong> manipulações seguras e consistentes; redução de tempo entre falha e solução; zero violações de segurança.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>B) Manuseio de Espingarda .12</h3>
+            <p class="muted"><strong>Objetivos:</strong> manipulação segura e resposta rápida a falhas.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> recargas (tática/emergencial); saneamento de panes; pronto alto/baixo; transições básicas.</li>
+              <li><strong>Indicadores:</strong> procedimentos padronizados; controle de recuo; comunicação com a equipe.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>C) Manuseio de Fuzil 5.56</h3>
+            <p class="muted"><strong>Objetivos:</strong> manipulações seguras, controle de cano, pronta resposta.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> recarga tática/emergencial; saneamento de panes; pronto alto/baixo; seletor; transição básica.</li>
+              <li><strong>Indicadores:</strong> consistência nos tempos; domínio de bandoleira; zero apontamentos inseguros.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>D) Uso de Bandoleira</h3>
+            <p class="muted"><strong>Objetivos:</strong> ajuste correto e transições seguras.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> tipos; mochilamentos; ajustes; <em>controle de cano ao mochilar</em>.</li>
+              <li><strong>Indicadores:</strong> transições limpas; arma retida e controlada; ergonomia preservada.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>E) Técnicas de Extração</h3>
+            <p class="muted"><strong>Objetivos:</strong> imobilizar/algemar e retirar infrator de área hostil com segurança.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> algemação;imobilização;extração;uso de escudo; segurança de cena.</li>
+              <li><strong>Indicadores:</strong> clareza de comandos; manutenção do controle do custodiado; segurança do extrator;</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>F) Defesa Pessoal (contexto operacional)</h3>
+            <p class="muted"><strong>Objetivos:</strong> base, gestão de distância, eficiência no combate e contenção proporcional.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> treino de artes marciais(jiu-jitsu, muay-thai, kravmaga, etc...).</li>
+              <li><strong>Indicadores:</strong> desenvolvimento de defesa pessoal; controle de combate corporal; transição segura para contenção.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>G) Montagem/Desmontagem & Manutenção</h3>
+            <p class="muted"><strong>Objetivos:</strong> confiabilidade e preservação do equipamento.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> desmontagem de 1º escalão; limpeza; inspeção; checklist pós-uso.</li>
+              <li><strong>Indicadores:</strong> preservação do equipamento.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>H) Técnicas de APH (contexto tático)</h3>
+            <p class="muted"><strong>Objetivos:</strong> salvar vidas, reduzindo a mortalidade evitável em cenários de confronto e operações táticas.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> segurança de cena; controle de hemorragias; priorização ABC; triagem básica.</li>
+              <li><strong>Indicadores:</strong> aplicação correta; comunicação clara; kit organizado.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>I) IMPO — Tecnologias não letais</h3>
+            <p class="muted"><strong>Objetivos:</strong> uso proporcional e correto das tecnologias.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> identificação de munições; uso correto; distâncias/ângulos seguros; pós-uso.</li>
+              <li><strong>Indicadores:</strong> zero incidentes por emprego inadequado.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>J) Caminhada & Formação Tática</h3>
+            <p class="muted"><strong>Objetivos:</strong> disciplina de deslocamento, espaçamento, controle de setor.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> deslocamentos básicos; prontidões; comunicação simples.</li>
+              <li><strong>Indicadores:</strong> manutenção de setores/intervalos; resposta imediata a comando.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>K) Retenção & Contra-Retenção</h3>
+            <p class="muted"><strong>Objetivos:</strong> impedir perda da arma e recuperar controle com segurança.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> princípios de retenção; proteção do coldre/arma longa; reação a agarramentos.</li>
+              <li><strong>Indicadores:</strong> controle preservado; decisão proporcional.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>L) Controle de Incêndio</h3>
+            <p class="muted"><strong>Objetivos:</strong> prevenção e primeira resposta.</p>
+            <ul>
+              <li><strong>Conteúdos:</strong> classes de fogo; uso de extintores; evacuação; comunicação.</li>
+              <li><strong>Indicadores:</strong> acionamento correto; tempo de resposta; segurança da equipe.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) Mensais -->
+    <section id="s4" class="section">
+      <div class="section__head">
+        <div class="num">4</div>
+        <div class="section__title">Módulos de Treino <strong>Mensal</strong> (todo o grupamento)</div>
+      </div>
+      <div class="section__body">
+        <div class="card">
+          <ul>
+            <li><strong>Formações Táticas:</strong> ponta fixa, alternada, escama de peixe, formação em L, linha, V, posicionamentos (pátio/pavilhão).</li>
+            <li><strong>Procedimento Padronizado:</strong> padronização do procedimento tatico e operacional de todo o grupamento.</li>
+            <li><strong>Intervenção Tática:</strong> Treino de Intervenções em multiplos cenários de motim/rebelião.</li>
+            <li><strong>Abordagem e Combate Veicular:</strong> posicionamentos seguros, comunicação e extração controlada.</li>
+            <li><strong>Tecnicas de Abordagem e Combate Noturno (low light):</strong> posicionamentos seguros, comunicação, preservação de visão noturna.</li>
+            <li><strong>Progressão de Combate (CQB):</strong> progressão tática em abientes fechados.</li>
+            <li><strong>Progressão de Combate na Mata:</strong> progressão tática em ambientes de mata/selva.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5) Sessão Diária -->
+    <section id="s5" class="section">
+      <div class="section__head">
+        <div class="num">5</div>
+        <div class="section__title">Modelo de <strong>Sessão Diária</strong> (roteiro padrão)</div>
+      </div>
+      <div class="section__body">
+        <div class="card">
+          <ul>
+            <li><strong>Objetivo do dia:</strong> ex.: Manuseio (.40).</li>
+            <li><strong>Recursos:</strong> armas de treinamento, coldres, bandoleiras, cones, kit APH.</li>
+            <li><strong>Procedimentos gerais:</strong> checagem de EPI, área segura, funções designadas (líder, segurança, material).</li>
+            <li><strong>Bloco técnico:</strong> exercícios <em>a seco</em> para padronização de movimentos.</li>
+            <li><strong>Debrief & Registro:</strong> cumprimento do objetivo, pontos de melhoria.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <footer class="doc">
+      Documento interno do GIR. Uso restrito. • Para PDF: clique em “Imprimir / Salvar PDF”.
+    </footer>
+  </main>
+
+  <script>
+    // Scroll suave para âncoras do sumário (UX)
+    document.querySelectorAll('.toc a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const id = a.getAttribute('href');
+        const el = document.querySelector(id);
+        if(!el) return;
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 84; // compensa topbar
+        window.scrollTo({top:y, behavior:'smooth'});
+        history.replaceState(null, "", id);
+      });
+    });
+  </script>
+</body>
+</html>
